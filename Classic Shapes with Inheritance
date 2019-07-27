@@ -1,0 +1,113 @@
+#classic Shapes as inherited classes
+#Sam Villalva Lijo
+#7/27/2019
+
+from math import sqrt
+
+
+class Line(object):
+    
+    def __init__(self, length):
+        self.length = length
+        
+    def print_length(self):
+        print(f"The length of the original line is: {self.length}")
+
+class Rectangle(Line):
+
+   def __init__(self, length, width):
+       self.length = length
+       self.width = width
+      
+   def area_rec_func(self):
+       self.area = self.length * self.width
+       return self.area
+   
+   def perimiter_rec_func(self):
+       self.perimiter = 2*self.length + 2*self.width
+       return self.perimiter
+   
+class Circle(Line): 
+    
+    pi = 3.14
+    
+    def __init__(self, radius):
+        self.radius = radius
+        
+    def area_circle_func(self):
+        self.area_circle = self.pi * self.radius**2
+        return self.area_circle
+
+    def circumference_circle_func(self):
+        self.circumference = 2*self.pi*self.radius
+        return self.circumference
+
+    
+class Prism(Rectangle):                         #inherit area function from rectangle and use it within the prism class 
+
+    def __init__(self, length, width, height):
+        self.length = length
+        self.width = width
+        self.height = height
+
+    def volume_prism_func(self):
+        self.volume = self.area_rec_func()*self.height 
+        return self.volume
+    
+    def surface_area_prism_func(self):
+        self.surface_area = self.area_rec_func()*2 + self.height*self.length*2 + self.height*self.width*2
+        return self.surface_area
+
+class Cone(Circle):
+
+   # pi = 3.14, passed in from circle
+   
+    def __init__(self, height, radius):
+        self.height = height
+        self.radius = radius
+
+    def slant_height_func(self):
+        self.slant_height = sqrt(self.height**2 + self.radius**2)
+        return self.slant_height
+    
+    def volume_cone_func(self):
+        self.volume_cone = (1/3)*self.area_circle_func()*self.height
+        return self.volume_cone
+
+    def surface_area_cone_func(self):
+        self.surface_area_cone = self.area_circle_func() + self.slant_height_func()*self.radius*self.pi 
+        return self.surface_area_cone                                       
+
+
+line_test = int(input("Enter the length of the line you want to evaluate: "))
+
+line_1_test = Line(line_test)
+print(line_1_test.length)       #You must call length to print since it is an attribute
+line_1_test.print_length()
+width_1_test = int(input("Enter the width of a rectangle you would like to make with line: "))
+rectangle_1_test = Rectangle(line_1_test.length,width_1_test)
+print(f"The length of your rectangle is: {rectangle_1_test.length()}")
+print(f"The width of your rectangle is: {rectangle_1_test.width()}")
+print(f"The area of this rectangle is: {rectangle_1_test.area_rec_func()}")
+print(f"The perimiter off this rectangle is: {rectangle_1_test.perimiter_rec_func()}")
+print("Now we are going to create a prism out of the original Line and Rectangle")
+height_1_test = int(input("Enter the height of the prism you would like to make: "))
+prism_1_test = Prism(rectangle_1_test.length,rectangle_1_test.width,height_1_test)
+print(f"The volume of your prism is: {prism_1_test.volume_prism_func()}")
+print(f"The surface area of your prism is: {prism_1_test.surface_area_prism_func()}")  #don't forget to enter these parenthesis to pass the method, self argument
+
+circle_1_test = Circle(line_1_test.length)
+print("Now we can use the original line you created as the radius of a circle.")
+print(f"Pi is equal to: {circle_1_test.pi}")                  
+print(f"The area of your circle is: {circle_1_test.area_circle_func()}")
+print(f"The circumference of your circle is: {circle_1_test.circumference_circle_func()}")
+        #now creating a cone bassed off of our circle
+print("Now let's created a cone based off our circle.")
+cone_height_1_test = int(input("Enter the height of the cone to start: "))
+cone_1_test =Cone(cone_height_1_test, line_1_test.length)
+print(f"Pi for your cone is equal to {cone_1_test.pi}")           #Cone inherits the value of PI from Cirlce class
+print(f"The volume of your cone is: {cone_1_test.volume_cone_func()}")
+print(f"The slant height of your cone is: {cone_1_test.slant_height_func()}")
+print(f"The surface area of your cone is: {cone_1_test.surface_area_cone_func()}") 
+
+    
