@@ -1,0 +1,465 @@
+#OOP Practice 7/31
+#create program that has line defined
+#then has rectangle inherit from class line
+#then has square inherit from class rectangle.
+#have prism able to inherit from rectangle
+#have cube inherit from square
+#have a triangle inherit from line and then right pyramid
+#also right circle with radius being inherited from line
+#figure out how to run it as a module
+
+#as the program becomes more complicated, define points on a grid in
+#3 plane cartisian space and model it graphically
+
+#interesting application would be to turn them into blocks that the user can use.
+
+#start with defining two points in cartisian space
+
+from math import sqrt
+
+
+class Line(object):
+    #think if you have anything you want to add as a class attribute to
+    #Line class
+
+    #def __init__(self, point_1, point_2):
+    #    self.point_1 = point_1
+    #    self.point_2 = point_2
+
+    #update as cartisian cordinates at a later date.
+
+    def __init__(self):
+        self.length = int(input("Enter the length of your line: "))
+        
+    #def print_length(self):
+    #    print(f"The length of the original line is: {self.length}")
+
+class Rectangle(Line):
+
+   # self.length = Line.length #this is calling an attribute of Line
+   def __init__(self):
+       self.length = int(input("Enter the length of your rectangle: "))
+       self.width =int(input("Enter the width of your rectangle: "))
+      
+  # def print_width(self):
+  #     print(f"The width of this rectangle is: {self.width}")
+       
+   def area_rec_func(self):
+       self.area = self.length * self.width
+       return self.area
+   
+   def perimiter_rec_func(self):
+       self.perimiter = 2*self.length + 2*self.width
+       return self.perimiter
+   
+class Circle(Line):     #have orignial line turned into a radius of the circle
+    
+    pi = 3.14
+    
+    #MAKE SURE YOU TRUNCATE FLOATS RETURNED TO TWO DECIMAL POINTS
+    
+    def __init__(self):
+        self.radius = int(input("Enter the radius of your circle: "))
+        
+    def area_circle_func(self):
+        self.area_circle = self.pi * self.radius**2
+        return self.area_circle
+
+    def circumference_circle_func(self):
+        self.circumference = 2*self.pi*self.radius
+        return self.circumference
+    
+    
+#class Equilateral_Triangle(Line):
+    
+#class Right_Triangle(Line):
+   
+#class Square(Rectangle):    #Make a square that is a modified rectangle
+
+#class Sphere(Circle):
+
+#class Square_Pyramid(Square):
+
+#class Cylinder(Circle):
+        
+
+    
+class Prism(Rectangle):
+
+    def __init__(self):
+        self.length = int(input("Enter the length of your prism: "))
+        self.width = int(input("Enter the width of your prism: "))
+        self.height = int(input("Enter the height of your prism: "))
+
+    def volume_prism_func(self):
+        self.volume = self.area_rec_func()*self.height #self.area needs to be called once and then it is defined for the rest of Prism
+        return self.volume
+    
+    def surface_area_prism_func(self):
+        self.surface_area = self.area_rec_func()*2 + self.height*self.length*2 + self.height*self.width*2
+        return self.surface_area
+
+class Cone(Circle):
+
+   # pi = 3.14 # we don't need this, passed in from circle
+   
+    def __init__(self):
+        self.radius = int(input("Enter the length of your cone's radius: "))
+        self.height = int(input("Enter the height of your cone: "))
+        
+
+    def slant_height_func(self):
+        self.slant_height = sqrt(self.height**2 + self.radius**2)
+        return self.slant_height
+    
+    def volume_cone_func(self):
+        self.volume_cone = (1/3)*self.area_circle_func()*self.height
+        return self.volume_cone
+
+    def surface_area_cone_func(self):
+        self.surface_area_cone = self.area_circle_func() + self.slant_height_func()*self.radius*self.pi #do not call function: area of a circle since it is called in
+        return self.surface_area_cone                                       # it is called in Cone.volume_cone
+                                                                            #Also do not call slant height as it has already been called for 
+                                                                            #been called  previously in the program.
+                                                                            #make your functions different from the variables they create, that 
+                                                                            #will solve this problem
+
+class First_Menu(object): #create a menu in which the user can select which shape they want to make.
+    
+    def __init__(self):
+        #self.shape_menu = {1:Line,2:Rectangle,3:Circle,4:Prism,5:Cone}
+        global line_count           #write counts and dictionary holders as global
+        line_count = 0              #variables that are manpilated globally
+        global rectangle_count      #in order to keep a running tab of how many
+        rectangle_count = 0         #shapes the user has created.
+        global circle_count 
+        circle_count = 0
+        global prism_count 
+        prism_count = 0
+        global cone_count
+        cone_count = 0
+        
+        global line_dic 
+        line_dic = {}
+        global rectangle_dic 
+        rectangle_dic = {}
+        global circle_dic 
+        circle_dic = {}
+        global prism_dic 
+        prism_dic = {}
+        global cone_dic
+        cone_dic = {}
+        
+        print("Welcome to Object Oriented Shapes, where we use the dimesions")
+        print("of 2-D shapes to make 3-D shapes.")
+        self.shapes_menu()
+        
+        pass
+    
+    def shapes_menu(self):
+        
+        global line_count           #figure out if global has to be called in 
+        global rectangle_count      #in each function
+        global circle_count
+        global prism_count 
+        global cone_count
+                
+        global line_dic 
+        global rectangle_dic 
+        global circle_dic 
+        global prism_dic 
+        global cone_dic
+        
+        
+        print("Enter the  shape you would like, enter 1 for a line, 2 for a ")
+        print("rectangle, 3 for a circle, 4 for a prism and 5 for a cone.")
+        user_choice = int(input("Enter your choice: "))
+        
+        
+        
+        
+        if user_choice == 1:
+            line_count += 1
+            line_dic[line_count] = Line()
+            
+        elif user_choice == 2:
+            rectangle_count += 1
+            rectangle_dic[rectangle_count] = Rectangle()
+            
+        elif user_choice == 3:
+            circle_count += 1
+            circle_dic[circle_count] = Circle()
+            
+        elif user_choice == 4:
+            prism_count += 1
+            prism_dic[prism_count] = Prism()
+            
+        elif user_choice == 5:
+            cone_count += 1
+            cone_dic[cone_count] = Cone()
+            
+        else:
+            print("Invalid response")
+        
+        self.middle_menu()
+        
+    def middle_menu(self):
+        '''This is the menu the user returns to after entering his shapes, or reviewing his shapes'''
+        print("Would you like to: 1, Make another shape, 2, Review your shapes, or 3, Exit this program")
+        sec_user_input = int(input("Enter a 1,2, or 3: "))
+        
+        if sec_user_input == 1:
+            self.shapes_menu()
+        elif sec_user_input == 2:
+            self.review_menu()
+        elif sec_user_input == 3:
+            print("Good Bye")
+        else:
+            print("Invalid response")
+            self.middle_menu()      #call midde_menu again so function loops back into itself.
+        return None
+
+
+    def review_menu(self): 
+  #this menu reviews the shapes you have created and asks what information
+  #you would like about specific ones
+        global line_count
+        global rectangle_count      #do further reasearchand figure out
+        global circle_count         #if you have to call global for each method
+        global prism_count          # or only for each class. I assume method
+        global cone_count           #because each method has the potential for
+                
+        global line_dic             #unique local variables to be created
+        global rectangle_dic 
+        global circle_dic 
+        global prism_dic 
+        global cone_dic
+        
+        #print("You are in review menu")  #test piece that can be deleted later
+        
+        if line_count > 0:
+            print(f"You have created {line_count} lines")
+        if rectangle_count > 0:
+            print(f"You have created {rectangle_count} rectangles")
+        if circle_count > 0:
+            print(f"You have created {circle_count} circles")
+        if prism_count > 0:
+            print(f"You have created {prism_count} prisms")
+        if cone_count > 0:
+            print(f"You have created {cone_count} cones")
+        
+        
+  #NEED TO BUILD FAILSAFE INTO CODE SO THAT IF USER GOES INTO REVEIW FOR SHAPE THAT IS NOT THERE
+#                   THE PROGRAM WILL LET THE USER KNOW AND BACKOUT              
+        rev_sha_cho = int(input("Which shape would you like to review, 1 for line 2 for rectangle, 3 for circle, 4 for prism, 5 for cone, or 0 to exit: "))
+        if rev_sha_cho == 1 and line_count > 0:
+            self.line_review_menu()
+        elif rev_sha_cho == 1 and line_count == 0:
+            print("You have no lines to review")
+            self.review_menu()
+        elif rev_sha_cho == 2 and rectangle_count > 0:
+            self.rectangle_review_menu()
+        elif rev_sha_cho == 2 and rectangle_count == 0:
+            print("You have no rectangles to review")
+            self.review_menu()
+        elif rev_sha_cho == 3 and circle_count > 0:
+            self.circle_review_menu()
+        elif rev_sha_cho == 3 and circle_count == 0:
+            print("You have no circles to review")
+            self.review_menu
+        elif rev_sha_cho == 4 and prism_count > 0:
+            self.prism_review_menu()
+        elif rev_sha_cho == 4 and prism_count == 0:
+            print("You have no prisms to review")
+            self.review_menu()
+        elif rev_sha_cho == 5 and cone_count > 0:
+            self.cone_review_menu()
+        elif rev_sha_cho == 5 and cone_count == 0:
+            print("You have no cones to review")
+            self.review_menu()
+        elif rev_sha_cho == 0:
+            self.middle_menu()
+        else:
+            print("Invalid response")
+            self.review_menu()
+        
+        
+        #one option would be to peice wise print this out line by line.
+        #create classes for each individual shape to be reviewed.
+        #then test it to make sure that you can only enter that shape if you have availble shapes 
+        # in that dictionary.
+        
+    def line_review_menu(self):
+            
+        global line_count
+        global line_dic
+            
+        line_rev_cho = int(input("Enter the line you would like to review: "))
+        if line_rev_cho <= line_count and line_rev_cho > 0: #or line_rev_cho <= 0, check if you have to perform this operation for the entrance of a negative number into the system
+            line_rev_cho_ex = False # this is a place holder boolean switch that will
+                                #switch to False when the user chosses to exit the review
+                                #of this specific line
+            while line_rev_cho_ex != True:
+                line_rev_cho_2 = int(input("Enter 1 for the length of your line, enter 0 to exit: "))
+                if line_rev_cho_2 == 1:
+                    print(f"The length of line number {line_rev_cho} is {line_dic[line_rev_cho].length}")
+                elif line_rev_cho_2 == 0:
+                    print(f"You are exiting the review of line {line_rev_cho}")
+                    line_rev_cho_ex = True     #this will break out of the while loop,
+                                                #figure out where it will excit
+                else:
+                    print("Invalid response")
+                    self.line_review_menu()
+            else:
+                print("Invalid choice for a line")
+                self.review_menu() #re-write this section as a while loop so that 
+                                    #you can re-ask the user which line they would like to review.
+                                    #or Better yet, break review menu up into smaller methods that can be re-called
+                                    #can ask later if they would like to exit the program.
+                    
+    def rectangle_review_menu(self):
+            
+        global rectangle_count
+        global rectangle_dic
+            
+        rec_rev_cho = int(input("Enter the rectangle you would like to review: "))
+            
+        if rec_rev_cho <= rectangle_count and rec_rev_cho >0:                    #now go into review selction tree for rectangles.
+            rec_rev_cho_ex = False
+          
+            while rec_rev_cho_ex != True:
+                rec_rev_cho_2 = int(input("Enter 1 for the length of the rectangle, 2 for the width, 3 for the area, 4 for the permiter or 0 to exit: "))
+                if rec_rev_cho_2 == 1:
+                    print(f"The length of rectangle number {rec_rev_cho} is {rectangle_dic[rec_rev_cho].length}") #Do not call length with () because it is an int attribute of rectangle
+                elif rec_rev_cho_2 == 2:
+                    print(f"The width of rectangle number {rec_rev_cho} is {rectangle_dic[rec_rev_cho].width}")
+                elif rec_rev_cho_2 == 3:
+                    print(f"The area of rectangle number {rec_rev_cho} is {rectangle_dic[rec_rev_cho].area_rec_func()}") #function must be called becasue it hasn't yet been called in the program
+                elif rec_rev_cho_2 == 4:
+                    print(f"The perimeter of the rectangle number {rec_rev_cho} is {rectangle_dic[rec_rev_cho].perimiter_rec_func()}")
+                elif rec_rev_cho_2 == 0:
+                    print(f"You are now exiting the review of rectangle {rec_rev_cho}")
+                    rec_rev_cho_ex = True
+                else:
+                     print("Invalid response.")
+                     self.rectangle_review_menu()            #really need to build in recursion here
+        else:
+            print("Invalid choice for a rectangle")
+            self.review_menu()
+        
+        
+        #elif rev_sha_cho == 3:
+    def circle_review_menu(self):
+            
+        global circle_count
+        global circle_dic
+            
+        cir_rev_cho = int(input("Enter the circle you would like to review: "))
+            
+        if cir_rev_cho <= circle_count and cir_rev_cho > 0:
+            cir_rev_cho_ex = False
+            
+            
+            while cir_rev_cho_ex != True:
+                cir_rev_cho_2 = int(input("Enter 1 for the radius, 2 for the area, 3 for the circumference and 0 to exit: "))
+                if cir_rev_cho_2 == 1:
+                    print(f"The radius of circle {cir_rev_cho} is {circle_dic[cir_rev_cho].radius}")                      
+                elif cir_rev_cho_2 == 2:
+                    print(f"The area of circle {cir_rev_cho} is {circle_dic[cir_rev_cho].area_circle_func()}")
+                elif cir_rev_cho_2 == 3:
+                    print(f"The circumference of circle {cir_rev_cho} is {circle_dic[cir_rev_cho].circumference_circle_func()}")
+                elif cir_rev_cho_2 == 0:
+                    print(f"You are now exiting the review of circle {cir_rev_cho}")
+                    cir_rev_cho_ex = True
+                else:
+                    print("Invalid response")
+                    self.circle_review_menu()
+                self.review_menu()
+        else:
+            print("Invalid response")
+            self.review_menu()
+        
+        
+    def prism_review_menu(self):
+            
+        global prism_count
+        global prism_dic
+            
+        pri_rev_cho = int(input("Enter the prism you would like to review: "))
+            
+        if pri_rev_cho <= prism_count and pri_rev_cho > 0:
+                
+            pri_rev_cho_ex = False
+            
+            while pri_rev_cho_ex != True:
+                pri_rev_cho_2 = int(input("Enter 1 for the length, 2 for the width, 3 for the height, 4 for the volume, 5 for the surface area, or 0 to exit: "))
+                if pri_rev_cho_2 == 1:
+                    print(f"The length of prism {pri_rev_cho} is {prism_dic[pri_rev_cho].length}")
+                elif pri_rev_cho_2 == 2:
+                    print(f"The width of prism {pri_rev_cho} is {prism_dic[pri_rev_cho].width}")
+                elif pri_rev_cho_2 == 3:
+                    print(f"The height of prism {pri_rev_cho} is {prism_dic[pri_rev_cho].height}")
+                elif pri_rev_cho_2 == 4: 
+                    print(f"The volume of prism {pri_rev_cho} is {prism_dic[pri_rev_cho].volume_prism_func()}")
+                elif pri_rev_cho_2 == 5:
+                    print(f"The surface area of prism {pri_rev_cho} is {prism_dic[pri_rev_cho].surface_area_prism_func()}")
+                elif pri_rev_cho_2 == 0:
+                    print(f"You are now exiting the review of prism {pri_rev_cho}")
+                    pri_rev_cho_ex = True
+                else:
+                    print("Invalid response")
+                    self.prism_review_menu()
+        else:
+            print("Invalid Response")
+            self.review_menu()
+        
+    def cone_review_menu(self):
+            
+        global cone_count
+        global cone_dic
+            
+        con_rev_cho = int(input("Enter the cone you would like to review: "))
+            
+        if con_rev_cho <= cone_count and con_rev_cho > 0:
+                
+            con_rev_cho_ex = False
+            
+            while con_rev_cho_ex != True:
+                con_rev_cho_2 = int(input("Enter 1 for the radius, 2 for the height, 3 for the slant height, 4 for volume, 5 for the surface area, or 0 to exit."))
+                if con_rev_cho_2 == 1:
+                    print(f"The radius of cone {con_rev_cho} is {cone_dic[con_rev_cho].radius}")
+                elif con_rev_cho_2 == 2:
+                    print(f"The height of cone {con_rev_cho} is {cone_dic[con_rev_cho].height}")
+                elif con_rev_cho_2 == 3:
+                    print(f"The slant height of cone {con_rev_cho} is {cone_dic[con_rev_cho].slant_height_func()}")
+                elif con_rev_cho_2 == 4:
+                    print(f"The volume of cone {con_rev_cho} is {cone_dic[con_rev_cho].volume_cone_func()}")
+                elif con_rev_cho_2 == 5:
+                    print(f"The surface area of the cone {con_rev_cho} is {cone_dic[con_rev_cho].surface_area_cone_func()}")
+                elif con_rev_cho_2 == 0:
+                    print(f"You are now exiting the review of cone {con_rev_cho}")
+                    con_rev_cho_ex = True
+                else:
+                    print("Invalid response")
+                    self.review_menu()
+        
+        else:
+            print("Invalid response")
+            self.review_menu()
+            return None 
+
+        
+line_count = 0                  #counts and dictionaries holding the information
+rectangle_count = 0             #about the number of each particlear type of
+circle_count = 0                #of shape are initialized in the main body of the
+prism_count = 0                 # function.
+cone_count = 0
+        
+line_dic = {}
+rectangle_dic = {}
+circle_dic = {}
+prism_dic = {}
+cone_dic = {}
+
+
+First_Menu()
